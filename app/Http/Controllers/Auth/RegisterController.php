@@ -76,10 +76,13 @@ class RegisterController extends Controller
              $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+             // dd($request->all());
     
-        $imageName = time().'.'.$request->image->extension();  
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time(). '.'.$extension;
      
-        $request->image->move(public_path('images'), $imageName);
+        $file->move('images', $filename);
         
        }
 
@@ -88,7 +91,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'image' => $data['image'],
+            'image' => $filename,
         ]);
 
          

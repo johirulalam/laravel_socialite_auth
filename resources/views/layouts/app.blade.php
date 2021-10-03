@@ -39,13 +39,17 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+
+                        <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('user.list') }}">{{ __('User List') }}</a>
+                        </li>
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
+                                
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -53,7 +57,11 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
+                            @if( empty(Auth::user()->image))
                                 <img src="{{Auth::user()->avatar }}" alt="{{Auth::user()->name}}" style="border: 1px solid #cccccc; border-radius: 5px; width: 39px; height: auto;float:left; margin-right: 7px;">
+                            @else
+                                <img src="../images/{{Auth::user()->image }}" alt="{{Auth::user()->name}}" style="border: 1px solid #cccccc; border-radius: 5px; width: 39px; height: auto;float:left; margin-right: 7px;">
+                            @endif
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>

@@ -8,6 +8,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
 
 class LoginController extends Controller
 {
@@ -45,13 +48,24 @@ class LoginController extends Controller
     // Facebook login
     public function redirectToFacebook()
     {
-        return Socialite::driver('facebook')->redirect();
+        
+        return Socialite::driver('facebook')
+          
+            ->redirect();
     }
 
     // Facebook callback
-    public function handleFacebookCallback()
+    public function handleFacebookCallback(Request $request)
     {
-        $user = Socialite::driver('facebook')->user();
+
+
+        $user = Socialite::driver('facebook')
+           
+            ->user();
+
+        // dd($user);
+
+           
 
         $this->_registerOrLoginUser($user);
 
@@ -62,16 +76,24 @@ class LoginController extends Controller
 
     protected function _registerOrLoginUser($data)
     {
-        $user = User::where('email', '=', $data->email)->first();
-        if (!$user) {
-            $user = new User();
-            $user->name = $data->name;
-            $user->email = $data->email;
-            $user->provider_id = $data->id;
-            $user->avatar = $data->avatar;
-            $user->save();
-        }
+        if (!empty($data->email)) {
 
-        Auth::login($user);
+            $user = User::where('email', '=', $data->email)->first();
+            if (!$user) {
+                $user = new User();
+                $user->name = $data->name;
+                $user->email = $data->email;
+                $user->provider_id = $data->id;
+                $user->avatar = $data->avatar;
+                $user->save();
+          }
+
+            Auth::login($user);
+
+        } else {
+            Http::delete("https://graph.facebook.com/v2.4/me/permissions?access_token={$data->token}");
+            return redirect('login')->with('error', 'Email access is required.');
+        }
+        
     }
 }

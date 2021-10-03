@@ -17,9 +17,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/user/list', [App\Http\Controllers\GuestController::class, 'userlist'])->name('user.list');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Admin User Profile Edit 
+Route::get('admin/user/profile/edit/{email}', [App\Http\Controllers\UserController::class, 'EditProfileByAdmin'])->name('admin.edit.user');
+Route::post('admin/user/profile/edit/{email}', [App\Http\Controllers\UserController::class, 'UpdateProfileByAdmin']);
+
+//User Profile Edit
+Route::get('/user/profile/edit', [App\Http\Controllers\UserController::class, 'EditProfile'])->name('user.edit');
+Route::post('/user/profile/edit', [App\Http\Controllers\UserController::class, 'UpdateProfile']);
 
 //User Profile 
 Route::get('/user/profile', [App\Http\Controllers\UserController::class, 'UserProfile'])->name('user.profile');
