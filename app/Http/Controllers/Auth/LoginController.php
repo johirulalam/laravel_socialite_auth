@@ -65,7 +65,58 @@ class LoginController extends Controller
 
         // dd($user);
 
+        $this->_registerOrLoginUser($user);
+
+        // Return home after login
+        return redirect()->route('home');
+    }
+
+
+    // Google login
+    public function redirectToGoogle()
+    {
+        
+        return Socialite::driver('google')
+          
+            ->redirect();
+    }
+
+    // Google callback
+    public function handleGoogleCallback(Request $request)
+    {
+
+
+        $user = Socialite::driver('google')
            
+            ->user();
+
+        // dd($user);          
+
+        $this->_registerOrLoginUser($user);
+
+        // Return home after login
+        return redirect()->route('home');
+    }
+
+
+    // Github login
+    public function redirectToGithub()
+    {
+        
+        return Socialite::driver('github')
+          
+            ->redirect();
+    }
+
+    // Github callback
+    public function handleGithubCallback(Request $request)
+    {
+
+        $user = Socialite::driver('github')
+           
+            ->user();
+
+        // dd($user);          
 
         $this->_registerOrLoginUser($user);
 

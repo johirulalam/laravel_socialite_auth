@@ -8,7 +8,22 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                     
+                     <div class="form-group row" style="margin-right: -260px;">
+                            <div class="col-md-4 offset-md-3">
+                                <a href=" {{route('login.facebook')}} " class="btn btn-primary btn-block">Login with Facebook</a>
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin-right: -260px;">
+                            <div class="col-md-4 offset-md-3">
+                                <a href=" {{route('login.google')}} " class="btn btn-info btn-block">Login with Google</a>
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin-right: -260px;">
+                            <div class="col-md-4 offset-md-3">
+                                <a href=" {{route('login.github')}} " class="btn btn-secondary btn-block">Login with Github</a>
+                            </div>
+                        </div>
+                        <p style="text-align: center;"><b>OR</b></p>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -65,12 +80,7 @@
                                 @endif
                             </div>
                         </div>
-                        <p style="text-align: center;"><b>OR</b></p>
-                        <div class="form-group row" style="margin-right: -260px;">
-                            <div class="col-md-4 offset-md-3">
-                                <a href=" {{route('login.facebook')}} " class="btn btn-primary btn-block">Login with Facebook</a>
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
             </div>
